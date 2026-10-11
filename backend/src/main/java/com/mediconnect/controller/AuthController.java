@@ -1,0 +1,4 @@
+package com.mediconnect.controller;
+import com.mediconnect.dto.ApiDtos;import com.mediconnect.entity.User;import com.mediconnect.service.AuthService;import org.springframework.security.core.annotation.AuthenticationPrincipal;import org.springframework.web.bind.annotation.*;import java.util.Map;
+@RestController @RequestMapping("/api/auth")
+public class AuthController {private final AuthService service;public AuthController(AuthService service){this.service=service;}@PostMapping("/register") public ApiDtos.AuthResponse register(@RequestBody Map<String,Object>b){return service.register(b);}@PostMapping("/login") public ApiDtos.AuthResponse login(@RequestBody Map<String,Object>b){return service.login(b);}@GetMapping("/me") public ApiDtos.UserView me(@AuthenticationPrincipal User u){return ApiDtos.UserView.of(u);}@PutMapping("/profile") public ApiDtos.UserView profile(@AuthenticationPrincipal User u,@RequestBody Map<String,Object>b){return service.updateProfile(u,b);}}
